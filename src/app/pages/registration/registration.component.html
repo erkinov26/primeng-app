@@ -1,0 +1,10 @@
+<div class=""
+  style="display: flex; justify-content: center; margin: 0 auto; min-height: 100vh; align-items: center; padding:0px;">
+  <p-card [style]="{ width: '120%' }">
+    <ng-template pTemplate="header">
+      <h2 style="padding-left: 20px; text-align: center; color: rgb(29, 29, 90);">Register a new account</h2>
+    </ng-template>
+    <app-form [form]="registerForm" [fields]="registerFields" submitText="Register" (formSubmit)="handleRegister()">
+    </app-form>
+  </p-card>
+</div>

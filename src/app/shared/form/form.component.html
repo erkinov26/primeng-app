@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+  <div *ngFor="let field of fields"
+    style="display: flex; flex-direction: column; row-gap: 8px; margin-bottom: 10px; width: 100%;" class="p-field">
+    <p-inputgroup>
+      <p-inputgroup-addon>
+        <i class="{{ field.icon }}"></i>
+      </p-inputgroup-addon>
+      <input [type]="field.type" pInputText [formControlName]="field.name" [placeholder]="field.placeholder || ''"
+        [ngClass]="{ 'p-invalid': isInvalid(field.name) }" />
+    </p-inputgroup>
+  </div>
+  <div style="margin-top: 20px;">
+    <p-button [style]="{ width: '100%' }" raised="true" severity="info" type="submit" [label]="submitText"
+      [disabled]="form.invalid">
+    </p-button>
+  </div>
+</form>
