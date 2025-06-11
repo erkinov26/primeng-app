@@ -6,8 +6,30 @@
         <i class="{{ field.icon }}"></i>
       </p-inputgroup-addon>
       <input [type]="field.type" pInputText [formControlName]="field.name" [placeholder]="field.placeholder || ''"
-        [ngClass]="{ 'p-invalid': isInvalid(field.name) }" />
+        [ngClass]="{ 'p-invalid': isInvalid(field.name) }" (input)="onInputChange()" />
     </p-inputgroup>
+    <div *ngIf="isInvalid(field.name)" style="color: red; font-size: 12px;">
+      <ng-container [ngSwitch]="field.name">
+        <ng-container *ngSwitchCase="'email'">
+          <span *ngIf="form.get('email')?.hasError('required')">Email is required.</span>
+          <span *ngIf="form.get('email')?.hasError('email')">Email must be valid.</span>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'password'">
+          <span *ngIf="form.get('password')?.hasError('required')">Password is required.</span>
+          <span *ngIf="form.get('password')?.hasError('minlength')">Password must be at least 6 characters.</span>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'username'">
+          <span *ngIf="form.get('username')?.hasError('required')">Username is required.</span>
+          <span *ngIf="form.get('username')?.hasError('minlength')">Password must be at least 6 characters.</span>
+        </ng-container>
+      </ng-container>
+
+    </div>
+  </div>
+  <div *ngIf="fetchError" style="color:red; text-align: center;">
+    {{fetchError}}
   </div>
   <div style="margin-top: 20px;">
     <p-button [style]="{ width: '100%' }" raised="true" severity="info" type="submit" [label]="submitText"

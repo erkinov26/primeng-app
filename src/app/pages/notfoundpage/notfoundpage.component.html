@@ -1,0 +1,11 @@
+<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+  <p-card [style]="{ width: '25rem'}">
+    <ng-template #title> 404 ERROR </ng-template>
+    <ng-template #subtitle> This page is not found </ng-template>
+
+    <ng-template #footer>
+      <p-button label="Back" (onClick)="goBack()" severity="secondary" class="w-full" [outlined]="true"
+        styleClass="w-full" />
+    </ng-template>
+  </p-card>
+</div>

@@ -1,0 +1,33 @@
+<!-- app.component.html -->
+<div class="container grid grid-cols-12 min-h-screen">
+  <div class="col-span-2 bg-gray-300 text-slate-950">
+    <p-menu [model]="items" [style]="{'border-radius':'0', 'border':'none','height':'100vh', 'padding-top':'20px', 'background':'transparent', 'color':'slate'}" />
+  </div>
+  <div class="col-span-10 p-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<!-- <p-menubar [style]="{borderRadius:'0'}">
+  <ng-template pTemplate="start" style="padding: 0;">
+
+    <p-drawer [(visible)]="visible" header="EDU" [style]="{'padding':'0px'}">
+
+
+    </p-drawer>
+    <p-button (click)="visible = true" [style]="{fontSize:'20px',padding:'5px 10px'}" outlined severity="secondary">
+      <i class='bx bx-menu'></i>
+    </p-button>
+    <span style="color: blue; font-weight: bold; margin-left: 10px;">EDU</span>
+  </ng-template>
+
+
+  <ng-template pTemplate="end">
+    <p-inputgroup>
+      <p-inputgroup-addon>
+        <i class="bx bx-search"></i>
+      </p-inputgroup-addon>
+      <input type="text" pInputText placeholder="Search" />
+    </p-inputgroup>
+  </ng-template>
+</p-menubar> -->

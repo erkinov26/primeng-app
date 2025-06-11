@@ -4,8 +4,12 @@
     <ng-template pTemplate="header">
       <h2 style="padding-left: 20px; text-align: center; color: rgb(29, 29, 90);">Login to your account</h2>
     </ng-template>
-    <app-form [form]="loginForm" [fields]="loginFields" submitText="{{isLoading ? 'Logging in...' : 'Login'}}"
+    <app-form [form]="loginForm" [fields]="loginFields" fetchError="{{fetchError}}"
+      (clearFetchError)="clearFetchError()" submitText="{{isLoading ? 'Logging in...' : 'Login'}}"
       (formSubmit)="handleLogin()">
     </app-form>
+    <ng-template pTemplate="footer">
+      <p style="text-align: center;">Don't you have accoount ? <a [style]="{color:'blue'}" routerLink="/registration">Registration</a></p>
+    </ng-template>
   </p-card>
 </div>

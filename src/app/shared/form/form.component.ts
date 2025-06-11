@@ -34,9 +34,18 @@ import { FormField } from '../../model/login';
 export class FormComponent {
   @Input() form!: FormGroup;
   @Input() fields!: FormField[];
+  @Input() fetchError!: string
   @Input() submitText: string = 'Submit';
+  @Output() clearFetchError = new EventEmitter<void>();
 
   @Output() formSubmit = new EventEmitter<void>();
+
+  onInputChange() {
+    if (this.fetchError) {
+      this.clearFetchError.emit();
+    }
+  }
+
 
   onFormSubmit(): void {
     if (this.form.valid) {

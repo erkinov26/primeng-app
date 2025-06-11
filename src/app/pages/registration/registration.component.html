@@ -6,5 +6,9 @@
     </ng-template>
     <app-form [form]="registerForm" [fields]="registerFields" submitText="Register" (formSubmit)="handleRegister()">
     </app-form>
+    <ng-template pTemplate="footer">
+      <p style="text-align: center;">Already have an account ? <a routerLink="/login">Log In</a></p>
+    </ng-template>
   </p-card>
+
 </div>

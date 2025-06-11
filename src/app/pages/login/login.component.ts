@@ -1,12 +1,12 @@
 
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormComponent } from "../../shared/form/form.component";
 
 import { CardModule } from 'primeng/card';
 import { FormField } from '../../model/login';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     FormComponent,
     CardModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -33,25 +34,29 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+  clearFetchError(): void {
+    this.fetchError = null;
+  }
+
 
   handleLogin(): void {
     if (this.loginForm.valid) {
       console.log('Login Form Submitted:', this.loginForm.value);
       this.isLoading = true;
-      this.http.post('http://localhost:4000/user/login', this.loginForm.value).subscribe({
-        next: (response) => {
+      this.http.post('http://localhost:4000/auth/login', this.loginForm.value).subscribe({
+        next: (response: any) => {
           this.isLoading = false;
-          console.log('Login successful:', response);
+          localStorage.setItem('token', response.token);
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 100); // 100ms delay, optional
         },
         error: (error) => {
           this.isLoading = false;
-          console.log(error.error, "erooooooooooooooooooooooooooooor");
-
-          // console.log(error.error.errors[0].msg, "erooooooooooooooooooooooooooooor");
-          
+          this.fetchError = error.error.message
         }
       });
     } else {
