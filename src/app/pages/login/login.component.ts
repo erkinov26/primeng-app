@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { FormComponent } from "../../shared/form/form.component";
 
 import { CardModule } from 'primeng/card';
-import { FormField } from '../../model/login';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
   router = inject(Router);
   http = inject(HttpClient)
   fetchError: string | null = null;
-  loginFields: FormField[] = [ // Explicitly type with FormField
+  loginFields: any[] = [ // Explicitly type with FormField
     { label: 'Email', name: 'email', type: 'email', placeholder: 'Enter your email', icon: 'bx bx-user' },
     { label: 'Password', name: 'password', type: 'password', placeholder: 'Enter your password', icon: 'bx bx-lock' }
   ];

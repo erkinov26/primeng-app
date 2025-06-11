@@ -1,8 +1,19 @@
 <div>
   <div class="flex justify-end">
-    <p-button>
-      Create Class
-    </p-button>
+    <p-button label="Add Class" (click)="showClassDialog()"></p-button>
   </div>
-  <app-table [columnData]="columnData" [data]="classData" [text]="'No classes available'"></app-table>
+
+  <app-dialog
+    [inputFields]="inputFields"
+    [form]="classAddForm"
+    [title]="title"
+    [(visible)]="classAddVisible"
+    (formSubmit)="handleAddClass()"
+  ></app-dialog>
+
+  <app-table
+    [columnData]="columnData"
+    [data]="classData"
+    [text]="'No classes available'"
+  ></app-table>
 </div>

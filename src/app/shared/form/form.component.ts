@@ -11,7 +11,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message'; // For p-message (optional, can use small tag with p-error)
 import { TooltipModule } from 'primeng/tooltip'; // For pTooltip if needed
-import { FormField } from '../../model/login';
+// import { FormField } from '../../model/login';
+import { RouterLink } from '@angular/router';
+import { SelectModule } from 'primeng/select';
 
 
 
@@ -22,18 +24,21 @@ import { FormField } from '../../model/login';
     CommonModule, // Provides NgFor, NgIf, etc.
     ReactiveFormsModule,
     InputTextModule,
-    DropdownModule,
     ButtonModule,
     MessageModule, // If using p-message for validation
     TooltipModule,
-    InputGroupModule, InputGroupAddonModule
+    InputGroupModule, InputGroupAddonModule, CommonModule,
+    ReactiveFormsModule,
+    SelectModule,
+    InputTextModule,
+    ButtonModule, RouterLink
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
 export class FormComponent {
   @Input() form!: FormGroup;
-  @Input() fields!: FormField[];
+  @Input() fields!: any;
   @Input() fetchError!: string
   @Input() submitText: string = 'Submit';
   @Output() clearFetchError = new EventEmitter<void>();

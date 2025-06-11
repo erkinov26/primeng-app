@@ -1,1 +1,8 @@
-<p>dialog works!</p>
+<p-dialog [header]="title" [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
+  <app-form
+    [form]="form"
+    [fields]="inputFields"
+    submitText="Save"
+    (formSubmit)="onSubmitForm()"
+  ></app-form>
+</p-dialog>

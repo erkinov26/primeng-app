@@ -1,39 +1,61 @@
 <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
-  <div *ngFor="let field of fields"
-    style="display: flex; flex-direction: column; row-gap: 8px; margin-bottom: 10px; width: 100%;" class="p-field">
-    <p-inputgroup>
-      <p-inputgroup-addon>
-        <i class="{{ field.icon }}"></i>
-      </p-inputgroup-addon>
-      <input [type]="field.type" pInputText [formControlName]="field.name" [placeholder]="field.placeholder || ''"
-        [ngClass]="{ 'p-invalid': isInvalid(field.name) }" (input)="onInputChange()" />
-    </p-inputgroup>
-    <div *ngIf="isInvalid(field.name)" style="color: red; font-size: 12px;">
-      <ng-container [ngSwitch]="field.name">
-        <ng-container *ngSwitchCase="'email'">
-          <span *ngIf="form.get('email')?.hasError('required')">Email is required.</span>
-          <span *ngIf="form.get('email')?.hasError('email')">Email must be valid.</span>
-        </ng-container>
+  <div *ngFor="let field of fields" class="p-field" style="margin-bottom: 1rem;">
+    <ng-container [ngSwitch]="field.type">
 
-        <ng-container *ngSwitchCase="'password'">
-          <span *ngIf="form.get('password')?.hasError('required')">Password is required.</span>
-          <span *ngIf="form.get('password')?.hasError('minlength')">Password must be at least 6 characters.</span>
-        </ng-container>
+      <!-- matnli input -->
+      <p-inputgroup *ngSwitchCase="'text'">
+        <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon>
+        <input type="text" pInputText [formControlName]="field.name" [placeholder]="field.placeholder"
+          [ngClass]="{ 'p-invalid': isInvalid(field.name) }" (input)="onInputChange()" />
+      </p-inputgroup>
+      <p-inputgroup *ngSwitchCase="'email'">
+        <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon>
+        <input type="email" pInputText [formControlName]="field.name" [placeholder]="field.placeholder"
+          [ngClass]="{ 'p-invalid': isInvalid(field.email) }" (input)="onInputChange()" />
+      </p-inputgroup>
+      <p-inputgroup *ngSwitchCase="'password'">
+        <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon>
+        <input type="password" pInputText [formControlName]="field.name" [placeholder]="field.placeholder"
+          [ngClass]="{ 'p-invalid': isInvalid(field.password) }" (input)="onInputChange()" />
+      </p-inputgroup>
 
-        <ng-container *ngSwitchCase="'username'">
-          <span *ngIf="form.get('username')?.hasError('required')">Username is required.</span>
-          <span *ngIf="form.get('username')?.hasError('minlength')">Password must be at least 6 characters.</span>
-        </ng-container>
-      </ng-container>
+      <!-- select (Dropdown) xoli/davom -->
+      <!-- <div > -->
+      <p-inputgroup *ngSwitchCase="'select'">
+        <!-- <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon> -->
+        <p-select *ngSwitchCase="'select'" [options]="field.options" [placeholder]="field.placeholder"
+          [formControlName]="field.name" [ngClass]="{ 'p-invalid': isInvalid(field.name) }"
+          (onChange)="onInputChange()">
+        </p-select>
+      </p-inputgroup>
 
+
+      <!-- agar options bo'lmasa, xabar va link -->
+      <div class="flex justify-between mt-4 items-center" *ngIf="field.options?.length === 0">
+        <small style="color: #888;">
+          {{ field.noOptionsMessage }}
+        </small>
+        <p-button [routerLink]="field.addRoute">Add curator</p-button>
+      </div>
+      <!-- </div> -->
+
+
+    </ng-container>
+
+    <div *ngIf="isInvalid(field.name)" style="color: red; font-size: 0.8rem;">
+      <span *ngIf="form.get(field.name)?.hasError('required')">
+        {{ field.label }} is required.
+      </span>
+      <span *ngIf="form.get(field.name)?.hasError('minlength')">
+        {{ field.label }} must be at least {{
+        form.get(field.name)?.errors?.['minlength']?.requiredLength
+        }} characters.
+      </span>
     </div>
   </div>
-  <div *ngIf="fetchError" style="color:red; text-align: center;">
-    {{fetchError}}
-  </div>
-  <div style="margin-top: 20px;">
-    <p-button [style]="{ width: '100%' }" raised="true" severity="info" type="submit" [label]="submitText"
-      [disabled]="form.invalid">
-    </p-button>
+
+  <div style="margin-top: 1.5rem;">
+    <p-button [style]="{ width: '100%' }" severity="info" type="submit" [label]="submitText"
+      [disabled]="form.invalid"></p-button>
   </div>
 </form>
