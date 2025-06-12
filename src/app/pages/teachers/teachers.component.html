@@ -9,5 +9,6 @@
   </app-dialog>
 
 
-  <app-table [columnData]="columnData" [data]="teachersData" text="No Teachers Available"></app-table>
+  <app-table [isLoading]="isGettingLoaded" [columnData]="columnData" [data]="teachersData"
+    text="No Teachers Available"></app-table>
 </div>

@@ -1,21 +1,43 @@
 <div class="card">
-  <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }">
-    <ng-template pTemplate="header">
-      <tr>
-        <th *ngFor="let col of columnData">{{ col.title }}</th>
-      </tr>
-    </ng-template>
+  <ng-container *ngIf="!isLoading; else loadingTemplate">
+    <p-table [value]="data" [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Number</th>
+          <th *ngFor="let col of columnData">{{ col.title }}</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-index="rowIndex">
+        <tr>
+          <td>{{ index + 1 }}</td>
+          <td *ngFor="let col of columnData">{{ rowData[col.key] }}</td>
+          <td>
+            <button pButton type="button" icon="bx bx-pencil" class="p-button-text p-button-md"
+              (click)="onEdit(rowData)"></button>
+            <button pButton type="button" icon="bx bx-trash" class="p-button-text p-button-md p-button-danger"
+              (click)="onDelete(rowData)"></button>
+          </td>
+        </tr>
+      </ng-template>
 
-    <ng-template pTemplate="body" let-rowData>
-      <tr>
-        <td *ngFor="let col of columnData">{{ rowData[col.key] }}</td>
-      </tr>
-    </ng-template>
+      <!-- Ma'lumot topilmasa -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="columnData.length + 2" style="text-align: center;">
+            {{ text || 'No data found' }}
+          </td>
+        </tr>
+      </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td style="text-align: center;" [attr.colspan]="columnData.length || 1">{{ text }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+    </p-table>
+  </ng-container>
+
+  <!-- 🔄 Loading holati -->
+  <ng-template #loadingTemplate>
+    <div style="text-align: center; padding: 2rem;">
+      <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+      <div>Loading...</div>
+    </div>
+  </ng-template>
 </div>

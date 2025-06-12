@@ -61,10 +61,10 @@ export class ClassesComponent implements OnInit {
   }
 
   fetchCurators() {
-    this.http.get<any[]>('/api/curators').subscribe({
-      next: data => {
+    this.http.get<any[]>('http://localhost:4000/users/curators').subscribe({
+      next: (res) => {
         const sel = this.inputFields.find(f => f.name === 'curator')!;
-        sel.options = data.map(c => ({ label: c.name, value: c.id }));
+        sel.options = res.map(c => ({ label: c.username, value: c.id }));
       },
       error: err => console.error(err)
     });

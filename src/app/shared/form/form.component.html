@@ -21,13 +21,15 @@
 
       <!-- select (Dropdown) xoli/davom -->
       <!-- <div > -->
-      <p-inputgroup *ngSwitchCase="'select'">
-        <!-- <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon> -->
-        <p-select *ngSwitchCase="'select'" [options]="field.options" [placeholder]="field.placeholder"
-          [formControlName]="field.name" [ngClass]="{ 'p-invalid': isInvalid(field.name) }"
-          (onChange)="onInputChange()">
-        </p-select>
-      </p-inputgroup>
+      <div>
+        <p-inputgroup *ngSwitchCase="'select'">
+          <!-- <p-inputgroup-addon><i class="{{ field.icon }}"></i></p-inputgroup-addon> -->
+          <p-select *ngSwitchCase="'select'" [options]="field.options" [placeholder]="field.placeholder"
+            [formControlName]="field.name" [ngClass]="{ 'p-invalid': isInvalid(field.name) }"
+            (onChange)="onInputChange()">
+          </p-select>
+        </p-inputgroup>
+      </div>
 
 
       <!-- agar options bo'lmasa, xabar va link -->
