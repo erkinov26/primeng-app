@@ -12,3 +12,10 @@ export const classFormFields = {
   name: ['', [Validators.required]],
   curator_id: ['', Validators.required],
 }
+export const pupilFormFields = {
+  username: ['', [Validators.required, Validators.minLength(6)]],
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(6)]],
+  first_name: ['', [Validators.required]],
+  last_name: ['', [Validators.required]],
+}
