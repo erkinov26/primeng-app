@@ -11,8 +11,10 @@
       <ng-template pTemplate="body" let-rowData let-index="rowIndex">
         <tr>
           <td>{{ index + 1 }}</td>
-          <td *ngFor="let col of columnData">{{ rowData[col.key] }}</td>
+          <td *ngFor="let col of columnData">
+            {{ col.valueGetter ? col.valueGetter(rowData) : rowData[col.key] }}</td>
           <td>
+
             <button pButton type="button" icon="bx bx-pencil" class="p-button-text p-button-md"
               (click)="onEdit(rowData)"></button>
             <button pButton type="button" icon="bx bx-trash" class="p-button-text p-button-md p-button-danger"

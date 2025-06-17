@@ -18,11 +18,12 @@ export class ClassesComponent implements OnInit {
   classAddForm!: FormGroup;
   classData: any[] = [];
   classAddVisible: boolean = false;
+
   title: string = "Add Class";
-  columnData: any[] = [
-    { title: 'Class name', key: 'name' },
-    { title: 'Tutor Id', key: 'curator_id' }
-  ];
+  columnData: any[] = [];
+
+  curatorMap: Record<string, string> = {}; // { id: username }
+
   inputFields: Array<{
     label: string;
     name: string;
@@ -36,7 +37,7 @@ export class ClassesComponent implements OnInit {
       { label: 'Name', name: 'name', type: 'text', placeholder: 'Enter your class name', icon: 'bx bx-user' },
       {
         label: 'Teacher',
-        name: 'curator',
+        name: 'curator_id',
         type: 'select',
         placeholder: 'Select your curator',
         icon: 'bx bx-user',
@@ -52,31 +53,91 @@ export class ClassesComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
-    this.classAddForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(6)]],
-      curator: ['', Validators.required],
-    });
-    this.fetchCurators();
+  goToPage(data: any) {
+    this.router.navigate(['/group-details', data.class_id]);
   }
 
-  fetchCurators() {
-    this.http.get<any[]>('http://localhost:4000/users/curators').subscribe({
+  ngOnInit(): void {
+    this.classAddForm = this.fb.group({
+      name: ['', [Validators.required]],
+      curator_id: ['', Validators.required],
+    });
+
+    this.fetchCuratorsAndInitializeColumns();
+    this.handleGetAllClasses();
+  }
+
+  fetchCuratorsAndInitializeColumns() {
+    this.http.get<any[]>('http://localhost:5000/teacher', { headers: this.headers }).subscribe({
       next: (res) => {
-        const sel = this.inputFields.find(f => f.name === 'curator')!;
+        console.log("🚀 ~ ClassesComponent ~ fetchCuratorsAndInitializeColumns ~ res:", res)
+        // Form select uchun curator options
+        const sel = this.inputFields.find(f => f.name === 'curator_id')!;
+        console.log("🚀 ~ ClassesComponent ~ fetchCuratorsAndInitializeColumns ~ sel:", sel)
         sel.options = res.map(c => ({ label: c.username, value: c.id }));
+
+        // Curatorlarni ID bo‘yicha map qilish (agar kerak bo‘lsa)
+        this.curatorMap = res.reduce((acc, c) => {
+          acc[c._id] = `${c.first_name} ${c.last_name}`;
+          return acc;
+        }, {} as Record<string, string>);
+
+        // 🧩 Table ustunlari classData strukturasiga mos ravishda
+        this.columnData = [
+          {
+            title: 'Class name',
+            key: 'class_name' // bu bevosita classData dan keladi
+          },
+          {
+            title: 'Curator',
+            valueGetter: (row: any) => {
+              // row.teacher bo'lishi kerak
+              const teacher = row.teacher;
+              if (!teacher) return 'Unknown';
+              return `${teacher.first_name} ${teacher.last_name}`;
+            }
+          },
+          {
+            title: 'Number of pupils',
+            valueGetter: (row: any) => row.pupils?.length ?? 0
+          }
+        ];
+        console.log(this.columnData);
+
       },
       error: err => console.error(err)
     });
   }
 
+
   showClassDialog() {
     this.classAddVisible = true;
+  }
+  token = localStorage.getItem('token');
+  headers = { Authorization: `Bearer ${this.token}` };
+
+
+  handleGetAllClasses() {
+    console.log("🚀 ~ ClassesComponent ~ headers:", this.headers)
+    this.http.get("http://localhost:5000/class", { headers: this.headers }).subscribe({
+      next: (res: any) => {
+        console.log("🚀 ~ ClassesComponent ~ this.http.get ~ res:", res)
+        this.classData = res;
+      },
+      error: (err) => {
+        console.log("🚀 ~ ClassesComponent ~ this.http.get ~ res:", err)
+      }
+    });
   }
 
   handleAddClass(): void {
     if (this.classAddForm.valid) {
-      console.log(this.classAddForm.value);
+      this.http.post('http://localhost:5000/class/create', this.classAddForm.value, { headers: this.headers }).subscribe({
+        next: (res: any) => {
+          console.log(res, 'class created');
+          this.handleGetAllClasses();
+        }
+      });
       this.classAddVisible = false;
     } else {
       this.classAddForm.markAllAsTouched();

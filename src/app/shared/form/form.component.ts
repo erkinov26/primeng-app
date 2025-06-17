@@ -31,7 +31,7 @@ import { SelectModule } from 'primeng/select';
     ReactiveFormsModule,
     SelectModule,
     InputTextModule,
-    ButtonModule, RouterLink
+    ButtonModule, RouterLink, DropdownModule
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']

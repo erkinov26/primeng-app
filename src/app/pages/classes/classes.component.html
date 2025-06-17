@@ -12,6 +12,7 @@
   ></app-dialog>
 
   <app-table
+    (edit)="goToPage($event)"
     [columnData]="columnData"
     [data]="classData"
     [text]="'No classes available'"

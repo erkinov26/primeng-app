@@ -8,6 +8,7 @@ import { NotfoundpageComponent } from './pages/notfoundpage/notfoundpage.compone
 import { TeachersComponent } from './pages/teachers/teachers.component';
 import { ClassesComponent } from './pages/classes/classes.component';
 import { PupilsComponent } from './pages/pupils/pupils.component';
+import { GroupDetailsComponent } from './pages/group-details/group-details.component';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
       { path: 'teachers', component: TeachersComponent },
       { path: 'groups', component: ClassesComponent },
       { path: 'pupils', component: PupilsComponent },
+      { path: "group-details/:id", component: GroupDetailsComponent }
     ]
   },
   {

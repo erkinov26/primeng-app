@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -6,25 +6,24 @@ import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, TableModule,ButtonModule],
+  imports: [CommonModule, TableModule, ButtonModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
 export class TableComponent implements OnChanges {
   @Input() data: any[] = [];
   @Input() text: string = '';
-  @Input() columnData: { title: string; key: string }[] = [];
+  @Input() columnData: any = [];
   @Input() isLoading!: boolean
+  @Input() onEditHandler: any
   columns: string[] = [];
-
+  @Output() edit = new EventEmitter<any>();
   onEdit(row: any) {
-    console.log('Edit:', row);
-    // Edit logikasini shu yerga yozing
+    this.edit.emit(row);
   }
 
   onDelete(row: any) {
     console.log('Delete:', row);
-    // O'chirish logikasini shu yerga yozing
   }
 
 

@@ -45,21 +45,24 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       console.log('Login Form Submitted:', this.loginForm.value);
       this.isLoading = true;
-      this.http.post('http://localhost:4000/auth/login', this.loginForm.value).subscribe({
+
+      this.http.post('http://localhost:5000/admin/login', this.loginForm.value).subscribe({
         next: (response: any) => {
           this.isLoading = false;
           localStorage.setItem('token', response.token);
           setTimeout(() => {
             this.router.navigate(['/']);
-          }, 100); // 100ms delay, optional
+          }, 100);
+
         },
         error: (error) => {
           this.isLoading = false;
-          this.fetchError = error.error.message
+          this.fetchError = error.error.message;
         }
       });
     } else {
       this.loginForm.markAllAsTouched();
     }
   }
+
 }

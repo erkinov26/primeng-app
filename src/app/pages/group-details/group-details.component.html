@@ -1,0 +1,30 @@
+<div class="flex justify-end">
+  <p-button label="{{title}}" (click)="showPupilDialog()"></p-button>
+</div>
+<div class="max-w-xl mt-10 p-6 bg-white shadow-xl rounded-2xl border border-gray-200 space-y-5">
+  <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+    <i class="pi pi-users text-blue-500"></i> Class:
+    <span class="font-semibold text-blue-600">{{ classData?.name }}</span>
+  </h2>
+
+  <div class="flex items-center text-lg text-gray-700">
+    <i class="pi pi-user text-green-500 mr-2"></i>
+    Pupils number: <strong class="ml-2">{{ classData?.pupils?.length==0?"No Pupils available":classData?.pupils?.length
+      }}</strong>
+  </div>
+
+
+  <div class="flex items-center text-lg text-gray-700">
+    <i class="pi pi-user-edit text-orange-500 mr-2"></i>
+    Teacher name: <strong class="ml-2">{{ teacherData?.first_name | titlecase }} {{ teacherData?.last_name |
+      titlecase }}</strong>
+  </div>
+
+  <div class="flex items-center text-lg text-gray-700">
+    <i class="pi pi-envelope text-pink-500 mr-2"></i>
+    Teacher email: <strong class="ml-2">{{ teacherData?.email }}</strong>
+  </div>
+</div>
+<app-dialog [title]="title" [visible]="pupilAddVisible" [inputFields]="inputFields" [form]="pupilAddForm"
+  (formSubmit)="handleAddPupil()"></app-dialog>
+<div class="mt-8"><app-table [columnData]="columnData" [data]="classData.pupils"></app-table></div>
