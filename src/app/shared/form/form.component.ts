@@ -21,17 +21,10 @@ import { SelectModule } from 'primeng/select';
   selector: 'app-form',
   standalone: true,
   imports: [
-    CommonModule, // Provides NgFor, NgIf, etc.
+    CommonModule,
+    InputGroupModule, InputGroupAddonModule,
     ReactiveFormsModule,
-    InputTextModule,
-    ButtonModule,
-    MessageModule, // If using p-message for validation
-    TooltipModule,
-    InputGroupModule, InputGroupAddonModule, CommonModule,
-    ReactiveFormsModule,
-    SelectModule,
-    InputTextModule,
-    ButtonModule, RouterLink, DropdownModule
+    ButtonModule, RouterLink, DropdownModule,InputTextModule
   ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']

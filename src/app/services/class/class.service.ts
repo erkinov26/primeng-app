@@ -16,8 +16,12 @@ export class ClassService {
   createClass(classData: any) {
     return this.api.post('class/create', classData);
   }
+  getOneClassData(id: any) {
+    return this.api.get(`class/${id}`)
+  }
 
   getCuratorOptionsAndMap(inputFields: any[]): Observable<{
+
     curatorMap: Record<string, string>,
     columnData: any[]
   }> {
@@ -26,8 +30,8 @@ export class ClassService {
         const curatorField = inputFields.find((f: any) => f.name === 'curator_id');
         if (curatorField) {
           curatorField.options = res.map((c: any) => ({
-            label: c.username,
-            value: c.id
+            label: c.teacher.username,
+            value: c.teacher.id
           }));
         }
 

@@ -22,10 +22,10 @@
       <!-- select (Dropdown) xoli/davom -->
       <!-- <div > -->
       <!-- <p-inputgroup> -->
-        <p-dropdown *ngSwitchCase="'select'" [options]="field.options" [formControlName]="field.name"
-          [placeholder]="field.placeholder" [ngClass]="{ 'p-invalid': isInvalid(field.name) }"
-          (onChange)="onInputChange()" appendTo="body">
-        </p-dropdown>
+      <p-dropdown *ngSwitchCase="'select'" [options]="field.options" [formControlName]="field.name"
+        [placeholder]="field.placeholder" [ngClass]="{ 'p-invalid': isInvalid(field.name) }"
+        (onChange)="onInputChange()" appendTo="body">
+      </p-dropdown>
       <!-- </p-inputgroup> -->
 
 
@@ -33,9 +33,9 @@
       <!-- agar options bo'lmasa, xabar va link -->
       <div class="flex justify-between mt-4 items-center" *ngIf="field.options?.length === 0">
         <small style="color: #888;">
-          {{ field.noOptionsMessage }}
+          {{ field.label }}
         </small>
-        <p-button [routerLink]="field.addRoute">Add curator</p-button>
+        <button pButton type="button" [routerLink]="field.route">{{field.routeText}}</button>
       </div>
       <!-- </div> -->
 

@@ -19,3 +19,6 @@ export const pupilFormFields = {
   first_name: ['', [Validators.required]],
   last_name: ['', [Validators.required]],
 }
+export const group_detail_validator = {
+  pupil_id: ['', [Validators.required]],
+}
