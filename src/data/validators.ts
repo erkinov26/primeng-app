@@ -7,3 +7,8 @@ export const teacherFormFields = {
   first_name: ['', [Validators.required]],
   last_name: ['', [Validators.required]],
 };
+
+export const classFormFields = {
+  name: ['', [Validators.required]],
+  curator_id: ['', Validators.required],
+}
