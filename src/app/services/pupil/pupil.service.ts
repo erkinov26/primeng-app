@@ -14,4 +14,8 @@ export class PupilService {
   createPupil(pupilData: any) {
     return this.api.post('pupil', pupilData)
   }
+  deletePupil(id: any) {
+    debugger
+    return this.api.delete(`pupil/${id}`)
+  }
 }

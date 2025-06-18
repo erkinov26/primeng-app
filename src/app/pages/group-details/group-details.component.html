@@ -19,7 +19,6 @@
     Teacher name: <strong class="ml-2">{{ teacherData?.first_name | titlecase }} {{ teacherData?.last_name |
       titlecase }}</strong>
   </div>
-
   <div class="flex items-center text-lg text-gray-700">
     <i class="pi pi-envelope text-pink-500 mr-2"></i>
     Teacher email: <strong class="ml-2">{{ teacherData?.email }}</strong>
@@ -27,4 +26,9 @@
 </div>
 <app-dialog [title]="title" [visible]="pupilAddVisible" [inputFields]="inputFields" [form]="pupilAddForm"
   (formSubmit)="handleAddPupil()"></app-dialog>
-<div class="mt-8"><app-table [columnData]="columnData" [data]="classData.pupils"></app-table></div>
+<div class="mt-8">
+  <app-table [data]="classData?.pupils" [columnData]="columnData" [deleteFunction]="deleteFunction">
+  </app-table>
+
+
+</div>

@@ -11,47 +11,81 @@ import { ClassService } from '../../services/class/class.service';
 import { group_detail_fields } from '../../../data/input-fields';
 import { group_detail_validator } from '../../../data/validators';
 import { GroupDetailsService } from '../../services/group-details/group-details.service';
+import { PupilService } from '../../services/pupil/pupil.service';
 
 @Component({
   selector: 'app-group-details',
   templateUrl: './group-details.component.html',
   styleUrls: ['./group-details.component.css'],
+  standalone: true,
   imports: [ButtonModule, CommonModule, DialogComponent, TableComponent]
 })
 export class GroupDetailsComponent implements OnInit {
-  pupilAddVisible: boolean = false
+  pupilAddVisible: boolean = false;
+  isDeleteLoading: boolean = false;
+  isDeleteError: boolean = false;
   pupils: any = [];
-  title: string = "Add Pupil"
-  pupilAddForm!: FormGroup
+  title: string = "Add Pupil";
+  pupilAddForm!: FormGroup;
   groupId: string | null = null;
   classData: any = null;
-  teacherData: any = null
+  teacherData: any = null;
   token = localStorage.getItem('token');
   headers = { Authorization: `Bearer ${this.token}` };
-  columnData: any = groupDetails
-  inputFields: any = group_detail_fields
-  constructor(private route: ActivatedRoute, private http: HttpClient, private fb: FormBuilder, private classService: ClassService, private groupDetailService: GroupDetailsService) { }
+  columnData: any = groupDetails;
+  inputFields: any = group_detail_fields;
+
+  // ✅ DELETE FUNCTIONNI BOG‘LASH (kontekst saqlanadi)
+  deleteFunction = (id: any) => this.deletePupil(id);
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private classService: ClassService,
+    private groupDetailService: GroupDetailsService,
+    private pupilService: PupilService
+  ) {}
 
   ngOnInit(): void {
     this.groupId = this.route.snapshot.paramMap.get('id');
     if (this.groupId) {
       this.getClassData();
     }
-    this.handleGetAllPupil()
+    this.handleGetAllPupil();
     this.pupilAddForm = this.fb.group(group_detail_validator);
   }
 
   showPupilDialog() {
-    this.pupilAddVisible = true
+    this.pupilAddVisible = true;
   }
+
+  deletePupil(id: any) {
+    console.log("🚀 ~ deletePupil ~ id:", id);
+    this.isDeleteLoading = true;
+
+    this.pupilService.deletePupil(id).subscribe({
+      next: (res) => {
+        console.log("Pupil deleted:", res);
+        this.isDeleteLoading = false;
+        this.getClassData(); // ✅ Yangilanish uchun
+      },
+      error: (err) => {
+        console.log("Delete error:", err);
+        this.isDeleteLoading = false;
+        this.isDeleteError = true;
+      }
+    });
+  }
+
   getClassData() {
     this.classService.getOneClassData(this.groupId).subscribe({
       next: (res: any) => {
         this.classData = res;
-        this.teacherData = res.teacher
+        this.teacherData = res.teacher;
       },
       error: (err) => {
-        console.log(err, "error occurs");
+        console.log("Class data error:", err);
       }
     });
   }
@@ -60,7 +94,6 @@ export class GroupDetailsComponent implements OnInit {
     this.groupDetailService.getUnassignedPupilOptions().subscribe({
       next: ({ unassignedPupils, options }) => {
         this.pupils = unassignedPupils;
-
         this.inputFields = [
           {
             label: 'Select Pupil',
@@ -68,16 +101,14 @@ export class GroupDetailsComponent implements OnInit {
             type: 'select',
             placeholder: 'Select pupil',
             options: options,
-            route:'/pupils',
-            routeText:'Create Pupil'
+            route: '/pupils',
+            routeText: 'Create Pupil'
           }
         ];
       },
-      error: err => console.log(err)
+      error: err => console.log("Get all pupil error:", err)
     });
   }
-
-
 
   handleAddPupil() {
     if (this.pupilAddForm.valid && this.groupId) {
@@ -94,12 +125,11 @@ export class GroupDetailsComponent implements OnInit {
           this.pupilAddForm.reset();
         },
         error: (err) => {
-          console.log(err);
+          console.log("Add pupil error:", err);
         }
       });
     } else {
       this.pupilAddForm.markAllAsTouched();
     }
   }
-
 }

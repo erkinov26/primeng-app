@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule],
+  imports: [CommonModule, TableModule, ButtonModule, ConfirmDialogComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
@@ -16,6 +17,7 @@ export class TableComponent implements OnChanges {
   @Input() columnData: any = [];
   @Input() isLoading!: boolean
   @Input() onEditHandler: any
+  @Input() deleteFunction: any
   columns: string[] = [];
   @Output() edit = new EventEmitter<any>();
   onEdit(row: any) {
@@ -23,7 +25,10 @@ export class TableComponent implements OnChanges {
   }
 
   onDelete(row: any) {
-    console.log('Delete:', row);
+    debugger
+    console.log(row);
+    
+    this.deleteFunction(row.id)
   }
 
 

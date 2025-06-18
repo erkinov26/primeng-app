@@ -17,8 +17,13 @@
 
             <button pButton type="button" icon="bx bx-pencil" class="p-button-text p-button-md"
               (click)="onEdit(rowData)"></button>
-            <button pButton type="button" icon="bx bx-trash" class="p-button-text p-button-md p-button-danger"
-              (click)="onDelete(rowData)"></button>
+            <app-confirm-dialog confirmedQuestion="Are you sure you want to delete?" confirmedButtonIcon="bx bx-trash"
+              confirmedBtnClass="p-button-text p-button-md p-button-danger" [confirmedFunction]="onDelete.bind(this, rowData)">
+
+            </app-confirm-dialog>
+
+            <!-- <button pButton type="button" icon="bx bx-trash" class="p-button-text p-button-md p-button-danger"
+              (click)="onDelete(rowData)"></button> -->
           </td>
         </tr>
       </ng-template>
